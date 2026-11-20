@@ -1,22 +1,35 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:provider/provider.dart';
 
-import 'package:taskflow/main.dart';
+import 'package:taskflow/app/taskflow_app.dart';
+import 'package:taskflow/features/tasks/data/local_task_repository.dart';
+import 'package:taskflow/features/tasks/presentation/tasks_view_model.dart';
 
 void main() {
-  testWidgets('Agregar y completar tareas actualiza el contador',
+  testWidgets('Cambiar el estado de una tarea actualiza el detalle',
       (WidgetTester tester) async {
-    await tester.pumpWidget(const TaskFlowApp());
+    await tester.pumpWidget(
+      ChangeNotifierProvider<TasksViewModel>(
+        create: (_) => TasksViewModel(LocalTaskRepository()),
+        child: const TaskFlowApp(),
+      ),
+    );
 
-    expect(find.text('Tareas pendientes: 3'), findsOneWidget);
+    expect(find.text('Mis tareas'), findsOneWidget);
 
-    await tester.tap(find.text('Agregar tarea'));
+    await tester.tap(find.text('Crear pantalla de bienvenida'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Estado: completada'), findsOneWidget);
+
+    await tester.tap(find.text('Marcar como pendiente'));
     await tester.pump();
 
-    expect(find.text('Tareas pendientes: 4'), findsOneWidget);
+    expect(find.text('Estado: pendiente'), findsOneWidget);
 
-    await tester.tap(find.text('Completar una tarea'));
-    await tester.pump();
+    await tester.tap(find.text('Volver al listado'));
+    await tester.pumpAndSettle();
 
-    expect(find.text('Tareas pendientes: 3'), findsOneWidget);
+    expect(find.text('Mis tareas'), findsOneWidget);
   });
 }
