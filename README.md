@@ -68,3 +68,14 @@ userId (entero que identifica al usuario de prueba).
 
 La API concreta se elegirá después. Estas rutas son requisitos, no
 direcciones de un servidor ya conectado.
+
+## API de tareas
+
+TaskFlow consulta las tareas con una petición HTTP GET a una API pública de práctica (JSONPlaceholder).
+
+- URL exacta: `https://jsonplaceholder.typicode.com/todos?userId=2`
+- Parámetro `userId`: filtra las tareas de un solo usuario. Está definido como constante en `TaskApiService` y se eligió el usuario 2.
+- Campos que llegan de la API: `userId`, `id`, `title` y `completed`.
+- Valores que TaskFlow completa por defecto: `description` = "Sin descripción (API)" y `priority` = "Sin prioridad (API)", porque la API no los entrega. `completed` se guarda como `isCompleted`.
+- Marcar una tarea como completada es un cambio solo local, en memoria. La API de práctica no guarda cambios, así que al reiniciar la app vuelve al valor original.
+- Flujo: `TaskApiService` (Dio, HTTP) → `RemoteTaskRepository` → `TasksViewModel` → pantallas con Provider.

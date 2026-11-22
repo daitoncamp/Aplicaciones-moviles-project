@@ -10,10 +10,11 @@ void main() {
       (WidgetTester tester) async {
     await tester.pumpWidget(
       ChangeNotifierProvider<TasksViewModel>(
-        create: (_) => TasksViewModel(LocalTaskRepository()),
+        create: (_) => TasksViewModel(LocalTaskRepository())..loadTasks(),
         child: const TaskFlowApp(),
       ),
     );
+    await tester.pumpAndSettle();
 
     expect(find.text('Mis tareas'), findsOneWidget);
 
