@@ -79,3 +79,19 @@ TaskFlow consulta las tareas con una petición HTTP GET a una API pública de pr
 - Valores que TaskFlow completa por defecto: `description` = "Sin descripción (API)" y `priority` = "Sin prioridad (API)", porque la API no los entrega. `completed` se guarda como `isCompleted`.
 - Marcar una tarea como completada es un cambio solo local, en memoria. La API de práctica no guarda cambios, así que al reiniciar la app vuelve al valor original.
 - Flujo: `TaskApiService` (Dio, HTTP) → `RemoteTaskRepository` → `TasksViewModel` → pantallas con Provider.
+
+
+## Estados de la lista
+
+La lista de tareas distingue cuatro situaciones. Así se provoca cada una:
+
+| Estado | Qué se ve | Cómo provocarlo |
+|--------|-----------|-----------------|
+| Carga | Indicador circular | Abrir la app o pulsar Actualizar; con red lenta se ve más tiempo |
+| Éxito | Tarjetas de tareas del usuario 2 | Abrir la app con internet |
+| Vacío | "Todavía no hay tareas para mostrar." y botón Actualizar | Cambiar temporalmente `userId` a 9999 en `TaskApiService` y reiniciar la app |
+| Error | "No se pudieron cargar las tareas." y botón Reintentar | Apagar WiFi y datos del celular y pulsar Actualizar |
+
+Reintentar: con el error en pantalla, volver a activar internet y pulsar **Reintentar**; la lista regresa sin reiniciar la app.
+
+Vacío y error son distintos: una lista vacía es una respuesta válida de la API, y un error significa que no se pudo obtener la respuesta. Al actualizar, la marca local de "completada" se pierde porque se vuelve a leer el servidor.
