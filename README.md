@@ -95,3 +95,15 @@ La lista de tareas distingue cuatro situaciones. Así se provoca cada una:
 Reintentar: con el error en pantalla, volver a activar internet y pulsar **Reintentar**; la lista regresa sin reiniciar la app.
 
 Vacío y error son distintos: una lista vacía es una respuesta válida de la API, y un error significa que no se pudo obtener la respuesta. Al actualizar, la marca local de "completada" se pierde porque se vuelve a leer el servidor.
+
+
+## Formulario de tareas
+
+La pantalla `Nueva tarea` (`/new`) se abre con el botón **Nueva tarea** de la lista.
+
+- **Título:** obligatorio, mínimo 3 caracteres.
+- **Descripción:** opcional, máximo 200 caracteres.
+- **Prioridad:** Alta, Media o Baja (por defecto Media).
+- **Fecha límite:** opcional, se elige con un selector de fecha.
+
+Al pulsar **Guardar** con datos válidos, el formulario devuelve un borrador a la lista, que muestra un mensaje de confirmación. Todavía no se crea nada en la API: el envío con POST se conectará en la sesión 10. **Cancelar** regresa sin mensaje.

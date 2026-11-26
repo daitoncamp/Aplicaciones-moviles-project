@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../core/app_theme.dart';
 import '../features/tasks/presentation/task_detail_screen.dart';
+import '../features/tasks/presentation/task_form_screen.dart';
 import '../features/tasks/presentation/task_list_screen.dart';
 
 final GoRouter appRouter = GoRouter(
@@ -14,6 +15,10 @@ final GoRouter appRouter = GoRouter(
         final id = int.tryParse(state.pathParameters['id'] ?? '');
         return TaskDetailScreen(taskId: id);
       },
+    ),
+    GoRoute(
+      path: '/new',
+      builder: (context, state) => const TaskFormScreen(),
     ),
   ],
 );
